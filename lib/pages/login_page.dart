@@ -1,6 +1,7 @@
 import 'package:chatapp/constants.dart';
 import 'package:chatapp/helper/show_snack_bar.dart';
 import 'package:chatapp/pages/chat_page.dart';
+import 'package:chatapp/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatapp/pages/cubits/login_cubit/login_cubit.dart';
 import 'package:chatapp/pages/cubits/login_cubit/login_state.dart';
 import 'package:chatapp/pages/register_page.dart';
@@ -27,7 +28,8 @@ class LoginPage extends StatelessWidget {
           isLoading =true;
         }
         else if(state is LoginSuccess){
-          Navigator.pushNamed(context, ChatPage.id);
+          BlocProvider.of<ChatCubit>(context).getMessages();
+          Navigator.pushNamed(context, ChatPage.id, arguments: email);
           isLoading=false;
         }
         else if(state is LoginFailure){

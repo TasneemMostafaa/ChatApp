@@ -1,6 +1,7 @@
 import 'package:chatapp/constants.dart';
 import 'package:chatapp/helper/show_snack_bar.dart';
 import 'package:chatapp/pages/chat_page.dart';
+import 'package:chatapp/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatapp/pages/cubits/register_cubit/register_cubit.dart';
 import 'package:chatapp/pages/login_page.dart';
 import 'package:chatapp/widgets/custom_button.dart';
@@ -28,7 +29,8 @@ class RegisterPage extends StatelessWidget {
           isLoading =true;
         }
         else if(state is RegisterSuccess){
-          Navigator.pushNamed(context, ChatPage.id);
+          BlocProvider.of<ChatCubit>(context).getMessages();
+          Navigator.pushNamed(context, ChatPage.id, arguments: email);
           isLoading=false;
         }
         else if(state is RegisterFailure){
