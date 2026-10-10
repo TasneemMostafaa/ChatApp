@@ -22,6 +22,8 @@ Future<void> loginUser({required String email, required String password}) async 
 
                          } else if (ex.code == 'invalid-credential') {
                                    emit(LoginFailure(errorMessage: 'wrong email or password '));
+                         } else{
+                          emit(LoginFailure(errorMessage: 'Authentication Failed please try again'));
                          }
                         
     }  catch (e) {
@@ -43,7 +45,9 @@ Future<void> loginUser({required String email, required String password}) async 
 
                          } else if (ex.code == 'email-already-in-use') {
                                    emit(RegisterFailure(errorMessage: 'email already in use'));
-                         } 
+                         } else{
+                           emit(LoginFailure(errorMessage: 'Authentication Failed please try again'));
+                         }
                         
     }  catch (e) {
        emit(RegisterFailure(errorMessage: "Something went wrong"));

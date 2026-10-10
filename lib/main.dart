@@ -1,3 +1,5 @@
+import 'dart:async' as BlocObservers;
+
 import 'package:chatapp/firebase_options.dart';
 import 'package:chatapp/pages/chat_page.dart';
 import 'package:chatapp/pages/cubits/auth_cubit/auth_cubit.dart';
@@ -11,6 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+
   runApp(ScholarApp());
 }
 
