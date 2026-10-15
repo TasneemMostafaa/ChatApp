@@ -17,14 +17,6 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var email = ModalRoute.of(context)!.settings.arguments;
-    //return StreamBuilder<QuerySnapshot>(
-    // stream: messages.orderBy(kCreatedAt, descending: true).snapshots(),
-    //builder: (context, snapshot) {
-    //if (snapshot.hasData) {
-    // List<Message> messageList = [];
-    //for (int i = 0; i < snapshot.data!.docs.length; i++) {
-    /// messageList.add(Message.fromJson(snapshot.data!.docs[i]));
-    // }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -39,11 +31,6 @@ class ChatPage extends StatelessWidget {
         children: [
           Expanded(
             child: BlocBuilder<ChatCubit, ChatState>(
-              /*listener: (context, state) {
-                if(state is ChatSuccess){
-                  mesageList= state.messages;
-                }
-              },*/
               builder: (context, state) {
                 var messagesList = BlocProvider.of<ChatCubit>(context).messageList;
                 return ListView.builder(
@@ -64,17 +51,14 @@ class ChatPage extends StatelessWidget {
             child: TextField(
               controller: controller,
               onSubmitted: (data) {
-                BlocProvider.of<ChatCubit>(context).sendMessage(msg: data, email: email.toString());
-                controller.clear();
-                _controller.animateTo(
-                  0,
-                  duration: Duration(seconds: 1),
-                  curve: Curves.fastOutSlowIn,
-                );
+                send(data, email.toString(), context, controller, _controller);
               },
               decoration: InputDecoration(
                 hintText: 'Send Message',
-                suffixIcon: Icon(Icons.send, color: kPrimaryColor),
+                suffixIcon: IconButton(onPressed: (){
+                  send(controller.text, email.toString(), context, controller, _controller);
+                }, icon: Icon(Icons.send, color: kPrimaryColor,), )
+                ,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide(color: kPrimaryColor),
@@ -89,10 +73,14 @@ class ChatPage extends StatelessWidget {
         ],
       ),
     );
-    //} else {
-    //return CircularProgressIndicator();
-    //}
-    // },
-    //);
   }
+}
+void send(String data, String email, BuildContext context, TextEditingController controller, ScrollController scrollController){
+  BlocProvider.of<ChatCubit>(context).sendMessage(msg: data, email: email.toString());
+                controller.clear();
+                scrollController.animateTo(
+                  0,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.fastOutSlowIn,
+                );
 }

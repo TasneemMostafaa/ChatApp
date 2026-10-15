@@ -20,6 +20,7 @@ void main() async {
 
 class ScholarApp extends StatelessWidget {
   const ScholarApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class ScholarApp extends StatelessWidget {
       ],
       
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         routes: {
           LoginPage.id: (context) => LoginPage(),
           RegisterPage.id: (context) => RegisterPage(),
